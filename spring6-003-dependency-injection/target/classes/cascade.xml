@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        使用级联属性赋值，需要注意两点：
+            1、配置的顺序不能颠倒，必须如下设置
+            2、clazz属性必须提供get（）方法
+    -->
+    <bean id="studentBean" class="com.powernode.spring.bean.Student">
+        <!--简单类型使用value-->
+        <property name="name" value="zhangsan"/>
+        <!--这不是简单类型使用ref-->
+        <property name="clazz" ref="clazzBean"/>
+        <!--级联属性赋值-->
+        <property name="clazz.name" value="class two"/>
+    </bean>
+
+    <bean id="clazzBean" class="com.powernode.spring.bean.Clazz"/>
+    <!--<bean id="clazzBean" class="com.powernode.spring.bean.Clazz">
+        <property name="name" value="class one"/>
+    </bean>-->
+</beans>

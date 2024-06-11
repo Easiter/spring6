@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--
+        第一种解决方案
+            如果use-default-filters这个属性是false，表示com.powernode.spring6.bean2包下所有带有声明bean的注解都会失效
+    -->
+    <context:component-scan base-package="com.powernode.spring6.bean2" use-default-filters="false">
+        <!--只有Repository被包含进来生效！！！-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+
+    <!--
+        第二种解决方案
+            如果use-default-filters这个属性是true，表示com.powernode.spring6.bean2包下所有带有声明bean的注解都会生效
+            use-default-filters属性的默认值就是true可以不写
+    -->
+    <context:component-scan base-package="com.powernode.spring6.bean2" use-default-filters="true">
+        <!--只有Repository被排除在外不生效！！！-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+
+</beans>

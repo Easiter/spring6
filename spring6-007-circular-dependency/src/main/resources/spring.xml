@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--singleton + setter 模式下的循环依赖是没有任何问题的-->
+    <!--singleton表示在整个spring容器当中是单例的，独一无二的对象-->
+    <!--
+        在singleton + setter模式下，为什么循环依赖不会出现问题，spring是如何应对的？
+            主要原因是：在这种模式下spring对bean的管理主要分为两个阶段
+                    第一个阶段：在spring容器加载的时候，实例化bean，只要其中任意一个bean实例化之后，马上进行”曝光“【不等属性赋值就”曝光“】
+                    第二个阶段：bean”曝光“之后，再进行属性的赋值（调用setter方法）
+                核心解决方案是：实例化对象和对象的属性赋值分为两个阶段来完成
+
+            注意：只有scope再singleton的情况下，bean才会采取提前”曝光“的措施
+    -->
+    <bean id="husbandBean" class="com.powernode.spring6.bean.Husband" scope="singleton">
+        <property name="name" value="张三"/>
+        <property name="wife" ref="wifeBean"/>
+    </bean>
+
+    <bean id="wifeBean" class="com.powernode.spring6.bean.Wife" scope="singleton">
+        <property name="name" value="小花"/>
+        <property name="husband" ref="husbandBean"/>
+    </bean>
+
+
+    <!--在prototype + setter模式下的循环依赖,存在问题会出现异常-->
+    <!--BeanCurrentlyInCreationException 当前的bean正在处于创建中异常-->
+    <!--
+        Requested bean is currently in creation: Is there an unresolvable circular reference?
+        翻译：请求的bean当前正在创建中：是否存在无法解析的循环引用？
+    -->
+    <!--<bean id="husbandBean" class="com.powernode.spring6.bean.Husband" scope="singleton">
+        <property name="name" value="张三"/>
+        <property name="wife" ref="wifeBean"/>
+    </bean>
+
+    <bean id="wifeBean" class="com.powernode.spring6.bean.Wife" scope="prototype">
+        <property name="name" value="小花"/>
+        <property name="husband" ref="husbandBean"/>
+    </bean>-->
+
+</beans>

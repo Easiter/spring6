@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="w1" class="com.powernode.spring.bean.Woman">
+        <property name="name" value="xxx"/>
+    </bean>
+
+    <bean id="w2" class="com.powernode.spring.bean.Woman">
+        <property name="name" value="yyy"/>
+    </bean>
+
+    <bean id="w3" class="com.powernode.spring.bean.Woman">
+        <property name="name" value="zzz"/>
+    </bean>
+
+    <bean id="yuQian" class="com.powernode.spring.bean.QianDaYe">
+        <!--这个数组属性当中的元素类型是String-->
+        <property name="aiHaos">
+            <array>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </array>
+        </property>
+
+        <!--这个数组当中的元素类型就不是简单类型了-->
+        <property name="women">
+            <array>
+                <ref bean="w1"/>
+                <ref bean="w2"/>
+                <ref bean="w3"/>
+            </array>
+        </property>
+
+    </bean>
+</beans>

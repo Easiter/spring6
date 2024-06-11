@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="mathBean" class="com.powernode.spring.bean.MathBean">
+        <!--<property name="result" value=" 2 < 3 "/>-->
+        <!--第一种方案：使用实体符号代替特殊符号-->
+        <!--<property name="result" value="2 &lt; 3"/>-->
+        <!--第二种方案：使用<![CDATA[]]>-->
+        <property name="result">
+            <!--使用<![CDATA[]]>只能使用<value>标签-->
+            <value><![CDATA[2 < 3]]></value>
+        </property>
+    </bean>
+
+    <!---->
+    <bean id="catBean" class="com.powernode.spring.bean.Cat">
+        <!--注入null方法一：不给属性注入值，默认注入null-->
+        <!--<property name="name" value="tom"/>-->
+
+        <!--这不是注入null，这是注入了一个”null“字符串-->
+        <!--<property name="name" value="null"/>-->
+
+        <!--注入空字符串，方式一-->
+        <!--<property name="name" value=""/>-->
+        <!--注入空字符串，方式二-->
+        <!--<property name="name">
+            <value/>
+        </property> -->
+
+        <!--注入null方法二：这种方式是手动注入null-->
+        <property name="name">
+            <null></null>
+        </property>
+        <property name="age" value="3"/>
+    </bean>
+
+    <!--让Spring来管理我们的数据源-->
+    <bean id="myDataSource" class="com.powernode.spring.jdbc.MyDataSource">
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/spring"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <!--注入简单类型-->
+    <bean id="userBean" class="com.powernode.spring.bean.User">
+        <!--重点：如果是给简单类型赋值，就不能使用ref了，就需要使用value了-->
+        <property name="username" value="zhangsan"/>
+        <property name="password" value="123"/>
+        <property name="age" value="20"/>
+    </bean>
+
+    <!--声明/定义bean-->
+    <bean id="OrderDaoBean" class="com.powernode.spring.dao.OrderDao"></bean>
+
+    <bean id="OrderServiceBean" class="com.powernode.spring.service.OrderService">
+        <!--使用ref属性来引入，这就是注入外部Bean-->
+        <property name="orderDao" ref="OrderDaoBean"/>
+    </bean>
+
+    <bean id="OrderServiceBean2" class="com.powernode.spring.service.OrderService">
+        <property name="orderDao">
+            <!--在property标签中使用嵌套的bean标签，这就是内部bean-->
+            <bean class="com.powernode.spring.dao.OrderDao"/>
+        </property>
+    </bean>
+</beans>

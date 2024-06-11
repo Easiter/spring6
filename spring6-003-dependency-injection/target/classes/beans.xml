@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="UserDaoBean" class="com.powernode.spring.dao.UserDao"/>
+    <bean id="VipDaoBean" class="com.powernode.spring.dao.VipDao"/>
+
+    <!--构造注入方法一：根据下标注入-->
+    <bean id="CsBean" class="com.powernode.spring.service.CustomerService">
+        <!--构造注入-->
+        <!--
+            index属性指定参数下标，第一个参数是0，第二个参数是1，第三个参数是2
+            ref属性用来指定注入的bean的id
+        -->
+        <!--指定构造方法的第一个参数，下标是0-->
+        <constructor-arg index="0" ref="UserDaoBean"/>
+        <!--指定构造方法的第一个参数，下标是1-->
+        <constructor-arg index="1" ref="VipDaoBean"/>
+    </bean>
+
+    <!--构造注入方法二：根据参数名称注入-->
+    <bean id="CsBean2" class="com.powernode.spring.service.CustomerService">
+        <!--
+            name属性指定参数的名称，根据构造方法参数的名称来进行赋值
+        -->
+        <constructor-arg name="userDao" ref="UserDaoBean"/>
+        <constructor-arg name="vipDao" ref="VipDaoBean"/>
+    </bean>
+
+    <!--构造注入方法三：不指定下标也不指定名称-->
+    <bean id="CsBean3" class="com.powernode.spring.service.CustomerService">
+        <!--这种方式实际上是根据类型进行注入的。spring会自动根据类型来判断把ref注入给那个参数-->
+        <constructor-arg ref="UserDaoBean"/>
+        <constructor-arg ref="VipDaoBean"/>
+    </bean>
+
+</beans>

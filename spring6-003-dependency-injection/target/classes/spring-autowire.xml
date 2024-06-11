@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--根据名字进行自动装配-->
+    <bean id="orderService" class="com.powernode.spring.service.OrderService" autowire="byName"></bean>
+
+    <!--id一般也叫做bean的名称-->
+    <!--
+        注意：此时的id是有要求的不能乱写
+            1、id中写的是对应的set方法的方法名拿过来去掉“set”在把首字母变成小写
+            2、表面上看，id填写的内容和注入属性的名称一样，但这是有前提的：set方法使用IDEA自动生成（因为IDEA生成的SET方法有规范）
+    -->
+    <bean id="aa" class="com.powernode.spring.dao.OrderDao"/>
+
+    <!--根据类型进行自动装配-->
+    <!--自动装配是基于set方法的-->
+    <!--根据类型进行自动装配的时候，在有效的配置文件当中，某种类型的实例只能有一个-->
+    <bean class="com.powernode.spring.dao.VipDao"/>
+    <bean class="com.powernode.spring.dao.UserDao"/>
+    <bean id="cs" class="com.powernode.spring.service.CustomerService" autowire="byType"/>
+</beans>
